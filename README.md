@@ -77,12 +77,12 @@ To add the script to cron:
   - `write_latest_macOS_version`: Writes the latest detected macOS version to a file.
 
 - **Operation**:
-  - Checks if the `macOSVersions.txt` file exists; if not, it creates it.
-  - Reads the old macOS version data from `macOSVersions.txt`.
+  - Checks if the `LatestMacOSVersion.txt` file exists; if not, it creates it.
+  - Reads the old macOS version data from `LatestMacOSVersion.txt`.
   - Fetches the current macOS version data from the Apple support page.
   - Compares the old and new macOS version counts.
   - If a new version is detected, constructs the Telegram message and sends a notification.
-  - Updates `macOSVersions.txt` with the new data.
+  - Updates `LatestMacOSVersion.txt` with the new data.
 
 ## Note
 
