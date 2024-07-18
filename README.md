@@ -97,7 +97,7 @@ This command runs the container in detached mode. The script inside the containe
 
 The method of sending notifications via Telegram is secure and efficient. For modern applications, Telegram provides a robust API that can be easily integrated with Python scripts for various notification purposes.
 
-This script is an evolution of a previous one I wrote in PowerShell (https://github.com/collmalpa/macos-version-checker), which had certain limitations. Currently, I am exploring containerization with Docker to facilitate easier deployment.
+This script is an evolution of a previous one I wrote in PowerShell (https://github.com/collmalpa/macos-version-checker), which had certain limitations.
 
 ## Contributing
 
