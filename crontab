@@ -1,0 +1,1 @@
+0 * * * * /usr/bin/python3 /app/macos_version_checker.py
