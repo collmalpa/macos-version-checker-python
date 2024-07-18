@@ -60,29 +60,38 @@ To add the script to cron:
     ```
 3. Save and close the cron table.
 
-## Script Details
+## Docker Setup
 
-- **Variables**:
-  - `TOKEN`: Telegram bot token, configured in `config.ini`.
-  - `chat_id`: Chat ID for Telegram notifications, configured in `config.ini`.
-  - `url`: URL to fetch macOS version information, stored in `config.ini`.
-  - `output_file`: File to store the last detected macOS version, specified in `config.ini`.
-  - `macOSforSearch`: Keyword for the macOS version to search for, set in `config.ini`.
+You can also run this script in a Docker container with a scheduled cron job. Follow these steps to build and run the Docker container.
 
-- **Functions**:
-  - `send_telegram_message`: Sends a Telegram message with the specified content using bot credentials.
-  - `fetch_macOS_info`: Fetches the HTML content from the macOS information URL.
-  - `parse_macOS_info`: Parses the HTML content to find the macOS version information.
-  - `read_last_macOS_version`: Reads the last detected macOS version from a file.
-  - `write_latest_macOS_version`: Writes the latest detected macOS version to a file.
+### Prerequisites
 
-- **Operation**:
-  - Checks if the `LatestMacOSVersion.txt` file exists; if not, it creates it.
-  - Reads the old macOS version data from `LatestMacOSVersion.txt`.
-  - Fetches the current macOS version data from the Apple support page.
-  - Compares the old and new macOS version counts.
-  - If a new version is detected, constructs the Telegram message and sends a notification.
-  - Updates `LatestMacOSVersion.txt` with the new data.
+- Docker installed on your machine
+
+### Building the Docker Image
+
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/collmalpa/macos-version-checker-python.git
+    cd macos-version-checker-python
+    ```
+
+2. Build the Docker image:
+
+    ```sh
+    docker build -t macos-version-checker .
+    ```
+
+### Running the Docker Container
+
+To run the Docker container, use the following command:
+
+```sh
+docker run -d --name macos-version-checker macos-version-checker
+```
+
+This command runs the container in detached mode. The script inside the container is scheduled to run every hour, as specified in the crontab file.
 
 ## Note
 
