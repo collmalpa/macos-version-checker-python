@@ -89,8 +89,40 @@ def send_telegram_message(token, chat_id, message):
     except requests.RequestException as e:
         logging.error(f"Error sending message via Telegram: {e}")
 
+def get_updates(token):
+    """Получение обновлений от Telegram для получения новых chat ID"""
+    url = f"https://api.telegram.org/bot{token}/getUpdates"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        logging.error(f"Error fetching updates from Telegram: {e}")
+        return None
+
+def update_chat_ids(token, config_path):
+    """Обновление chat_id в config.ini с новыми chat ID"""
+    updates = get_updates(token)
+    if not updates or not updates.get('result'):
+        return
+
+    chat_ids = set(config['Telegram']['chat_id'].split(','))
+    for update in updates['result']:
+        if 'message' in update:
+            chat_id = str(update['message']['chat']['id'])
+            if chat_id not in chat_ids:
+                chat_ids.add(chat_id)
+                logging.info(f"Found new chat ID: {chat_id}")
+
+    # Обновляем конфигурационный файл
+    config['Telegram']['chat_id'] = ','.join(chat_ids)
+    with open(config_path, 'w') as configfile:
+        config.write(configfile)
+     
 # Main function to check for the latest macOS version and send a notification if a new version is detected
 def main():
+     # Обновляем chat ID в config.ini
+    update_chat_ids(TOKEN, config_path)
     last_macOS_version = read_last_macOS_version(output_file)
     
     html = fetch_macOS_info(url)
@@ -117,10 +149,13 @@ def main():
                 f"More information is available on the page:\n"
                 f"https://support.apple.com/en-us/HT201222\n"
             )
-            send_telegram_message(TOKEN, chat_id, message)
+            chat_ids = config['Telegram']['chat_id'].split(',')
+            for chat_id in chat_ids:
+                send_telegram_message(TOKEN, chat_id, message)
             write_latest_macOS_version(output_file, latest_macOS)
         else:
             logging.error("Failed to parse latest macOS version")
+
 
 if __name__ == "__main__":
     main()
