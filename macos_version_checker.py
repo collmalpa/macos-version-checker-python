@@ -88,9 +88,8 @@ def send_telegram_message(token, chat_id, message):
         logging.info("Sent message via Telegram")
     except requests.RequestException as e:
         logging.error(f"Error sending message via Telegram: {e}")
-
+#Receiving updates from Telegram to get new chat IDs
 def get_updates(token):
-    """Получение обновлений от Telegram для получения новых chat ID"""
     url = f"https://api.telegram.org/bot{token}/getUpdates"
     try:
         response = requests.get(url)
