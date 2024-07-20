@@ -99,9 +99,8 @@ def get_updates(token):
     except requests.RequestException as e:
         logging.error(f"Error fetching updates from Telegram: {e}")
         return None
-
+#Update chat_id in config.ini with new chat IDs
 def update_chat_ids(token, config_path):
-    """Обновление chat_id в config.ini с новыми chat ID"""
     updates = get_updates(token)
     if not updates or not updates.get('result'):
         return
@@ -114,14 +113,14 @@ def update_chat_ids(token, config_path):
                 chat_ids.add(chat_id)
                 logging.info(f"Found new chat ID: {chat_id}")
 
-    # Обновляем конфигурационный файл
+    # Update config file
     config['Telegram']['chat_id'] = ','.join(chat_ids)
     with open(config_path, 'w') as configfile:
         config.write(configfile)
      
 # Main function to check for the latest macOS version and send a notification if a new version is detected
 def main():
-     # Обновляем chat ID в config.ini
+     # Update chat ID in config.ini
     update_chat_ids(TOKEN, config_path)
     last_macOS_version = read_last_macOS_version(output_file)
     
