@@ -1,7 +1,7 @@
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-dev build-essential cron && \
+    apt-get install -y cron && \
     apt-get clean
 
 WORKDIR /app
@@ -15,6 +15,8 @@ COPY . .
 COPY crontab /etc/cron.d/my-cron-job
 
 RUN chmod 0644 /etc/cron.d/my-cron-job
+
+RUN sed -i -e '$a\' /etc/cron.d/my-cron-job
 
 RUN touch /var/log/cron.log
 
