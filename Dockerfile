@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM python:3.9-slim
 
 RUN apt-get update && \
     apt-get install -y python3 python3-pip python3-dev build-essential cron && \
