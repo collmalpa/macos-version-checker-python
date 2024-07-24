@@ -16,8 +16,6 @@ COPY crontab /etc/cron.d/my-cron-job
 
 RUN chmod 0644 /etc/cron.d/my-cron-job
 
-RUN sed -i -e '$a\' /etc/cron.d/my-cron-job
-
 RUN touch /var/log/cron.log
 
 RUN crontab /etc/cron.d/my-cron-job
